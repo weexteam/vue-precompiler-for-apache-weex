@@ -5,6 +5,19 @@ const util = require('./util')
 const defaults = require('./config')
 
 class Precompiler {
+  /**
+   * config:
+   *  - preservedTags: the preserved weex components tag list. The default
+   *    value is: ['a','container','div','image','img','text','input',
+   *    'switch','list','scroller','waterfall','slider','indicator',
+   *    'loading-indicator','loading','refresh','textarea','video','web'].
+   *    If you have other components as plugins installed in weex, you
+   *    should add them to this lists, add pass the whole list to this.
+   *  - autoprefixer: options for autoprefixer. default is { browsers:
+   *    ['> 0.1%', 'ios >= 8', 'not ie < 12'] }.
+   *  - px2rem: options for postcss-plugin-px2rem. default is: { rootValue: 75 }
+   * @param {*} config
+   */
   constructor (config) {
     this.config = defaults
     util.extend(this.config, config)

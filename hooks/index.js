@@ -1,4 +1,4 @@
 module.exports = {
-  'events': require('./events')
-  // 'style': require('./style')
+  'events': require('./events'),
+  'style': require('./style')
 }
