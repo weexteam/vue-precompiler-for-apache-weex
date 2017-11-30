@@ -1,6 +1,6 @@
 {
   "name": "weex-vue-precompiler",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "a precompiler for weex-vue-render.",
   "main": "index.js",
   "scripts": {
@@ -12,5 +12,10 @@
     "compile"
   ],
   "author": "MrRaindrop",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "autoprefixer": "^7.1.6",
+    "postcss": "^6.0.14",
+    "postcss-px2rem": "^0.3.0"
+  }
 }

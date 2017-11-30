@@ -1,9 +1,9 @@
-const appearEvts = [
-  'appear',
-  'offsetAppear',
-  'disappear',
-  'offsetDisappear'
-]
+const transEvtsMap = {
+  appear: 'appear',
+  offsetAppear: 'offset-appear',
+  disappear: 'disappear',
+  offsetDisappear: 'offset-disappear'
+}
 
 module.exports = function eventsHook (
   el,
@@ -12,20 +12,30 @@ module.exports = function eventsHook (
   attrs,
   staticClass
 ) {
+  const preservedTags = this.config.preservedTags
+  const isPreserved = preservedTags.indexOf(el._origTag || el.tag) > -1
   // process appear evts series:
   const evts = el.events
-  console.log(el.hasBindings, evts)
+  if (!isPreserved) {
+    // bind events to nativeEvents.
+    el.nativeEvents = evts
+  }
   if (el.hasBindings && evts) {
-    for (let i = 0, l = appearEvts.length; i < l; i++) {
-      const appearEvt = appearEvts[i]
-      const evtObj = evts[appearEvt]
-      if (evtObj) {
-        const name = `data-evt-${appearEvt}`
+    const evtKeys = Object.keys(evts)
+    for (let i = 0, l = evtKeys.length; i < l; i++) {
+      const key = evtKeys[i]
+      const transKey = transEvtsMap[key]
+      const evtName = transKey || key
+      if (transKey) {
         attrs.push({
-          name,
+          name: `weex-appear`,
           value: '""'
         })
       }
+      attrs.push({
+        name: `data-evt-${evtName}`,
+        value: '""'
+      })
     }
 
     // map click handler to tap handler.

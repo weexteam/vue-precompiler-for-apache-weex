@@ -15,6 +15,7 @@ const checkMap = Object.keys(metaMap).reduce(function (pre, targetTag) {
 module.exports = function (el) {
   const targetTag = checkMap[el.tag]
   if (targetTag) {
+    el._origTag = el.tag
     el.tag = targetTag
   }
   return el.tag
