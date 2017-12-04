@@ -1,12 +1,13 @@
-const extend = require('../util').extend
+const util = require('../util')
+const {
+  extend,
+  getStaticStyleObject
+} = util
 
-function getLinesStyle (lines) {
-  if (lines > 0) {
-    return {
-      overflow: 'hidden',
-      'text-overflow': 'ellipsis',
-      '-webkit-line-clamp': lines
-    }
+function getLinesStaticStyle () {
+  return {
+    overflow: 'hidden',
+    'text-overflow': 'ellipsis',
   }
 }
 
@@ -17,21 +18,32 @@ module.exports = function processText (
   attrs,
   staticClass
 ) {
-  const n = attrsMap.lines
-  if (n > 0) {
-    /**
-     * lines: x => styles: {}
-     */
-    let staticStyle = el.staticStyle
-    try {
-      staticStyle = JSON.parse(staticStyle)
-    }
-    catch (e) {
-      staticStyle = {}
-    }
-    extend(staticStyle, getLinesStyle(n))
-    el.staticStyle = JSON.stringify(staticStyle)
-    const finalClass = staticClass + ' weex-el weex-text'
-    el.staticClass = `"${finalClass}"`
+  const staticStyle = getStaticStyleObject(el)
+  let hasBindings = false
+  const bindingLinesReg = /lines['"]?\s*:([^,}]+)/
+  const styleBinding = el.styleBinding
+  const bindingMatch = (styleBinding + '').match(bindingLinesReg)
+  if (bindingMatch && bindingMatch[1]) {
+    hasBindings = true
   }
+  let n = staticStyle.lines
+  if ((n > 0) || hasBindings) {
+    extend(staticStyle ,getLinesStaticStyle())
+    if (n > 0) {
+      extend(staticStyle, {
+        '-webkit-line-clamp': n
+      })
+      el.staticStyle = JSON.stringify(staticStyle)
+    }
+    else {
+      el.styleBinding = styleBinding.replace(
+        bindingLinesReg,
+        function($0, $1) {
+          return `webkitLineClamp:${$1}`
+        })
+    }
+  }
+
+  const finalClass = staticClass + ' weex-el weex-text'
+  el.staticClass = `"${finalClass}"`
 }

@@ -1,4 +1,8 @@
-const extend = require('../util').extend
+const util = require('../util')
+const {
+  extend,
+  getStaticStyleObject
+} = util
 
 function getResizeStyle (resize) {
   const stretch = '100% 100%'
@@ -29,14 +33,7 @@ module.exports = function processImg (
    * NOTE: only static value is valid for resize.
    */
   const resize = attrsMap.resize
-  let staticStyle = el.staticStyle
-  try {
-    staticStyle = JSON.parse(staticStyle)
-  }
-  catch (e) {
-    staticStyle = {}
-  }
-
+  const staticStyle = getStaticStyleObject(el)
   extend(staticStyle, getResizeStyle(resize))
   el.staticStyle = JSON.stringify(staticStyle)
   const finalClass = staticClass + ' weex-el weex-img'

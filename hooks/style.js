@@ -2,6 +2,21 @@ const postcss = require('postcss')
 const autoprefixer = require('autoprefixer')
 const px2rem = require('postcss-plugin-px2rem')
 
+const util = require('../util')
+const { getStaticStyleObject } = util
+
+const styleProcessors = [
+  function position (styleObj, el) {
+    const value = styleObj['position']
+    if (value === 'sticky') {
+      el.attrs.push({
+        name: 'weex-sticky',
+        value: '""'
+      })
+    }
+  }
+]
+
 /**
  * for test.
  */
@@ -34,10 +49,15 @@ module.exports = function styleHook (
   staticClass
 ) {
   const staticStyle = el.staticStyle
-  let styleObj
   if (!staticStyle) {
     return
   }
+  let styleObj = getStaticStyleObject(staticStyle)
+  for (let i = 0, l = styleProcessors.length; i < l; i++) {
+    const process = styleProcessors[i]
+    process(styleObj, el)
+  }
+
   const config = this.config
   const before = staticStyle
     .replace(/\s/g, '')
