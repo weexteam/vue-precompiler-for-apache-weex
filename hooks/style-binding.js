@@ -2,29 +2,29 @@ const bindingStyleNamesForPx2Rem = [
   'width',
   'height',
   'border',
-  'border-width',
-  'border-left',
-  'border-right',
-  'border-top',
-  'border-bottom',
-  'border-left-width',
-  'border-right-width',
-  'border-top-width',
-  'border-bottom-width',
+  'borderWidth',
+  'borderLeft',
+  'borderRight',
+  'borderTop',
+  'borderBottom',
+  'borderLeftWidth',
+  'borderRightWidth',
+  'borderTopWidth',
+  'borderBottomWidth',
   'margin',
-  'margin-left',
-  'margin-right',
-  'margin-top',
-  'margin-bottom',
+  'marginLeft',
+  'marginRight',
+  'marginTop',
+  'marginBottom',
   'padding',
-  'padding-left',
-  'padding-right',
-  'padding-top',
-  'padding-bottom',
-  'font-size'
+  'paddingLeft',
+  'paddingRight',
+  'paddingTop',
+  'paddingBottom',
+  'fontSize'
 ]
 
-const ruleReg =/([^:]+):([^,]+)/
+const ruleReg =/,?([^,:]+):([^,(]+(?:\([^)]+\)[^,}]*)?)/g
 
 module.exports = function styleBindingHook (
   el,
@@ -38,18 +38,23 @@ module.exports = function styleBindingHook (
     return
   }
   const content = styleBinding.trim()
-    .replace(/\s*[{}]\s*/g, '').split(',')
-    .map(function (str) {
-      const match = str.trim().match(ruleReg)
+    .replace(/\s*[{}]\s*/g, '')
+  let match
+  let res = '{'
+  while ((match = ruleReg.exec(content))) {
+    try {
       let k = match[1]
       let v = match[2]
       k = k && k.trim()
       v = v && v.trim()
       if (k && bindingStyleNamesForPx2Rem.indexOf(k) > -1) {
-        v = `_px2rem(${v})`
+        v = `_px2rem(${v},75)`
       }
-      return `${k}:${v}`
-    })
-    .join(',')
-  el.styleBinding = `{${content}}`
+      res += `${k}:${v},`
+    } catch (err) {
+      console.error('[weex-vue-precompiler] style binding match error:', str)
+    }
+  }
+  res = res.substr(0, res.length - 1) + '}'
+  el.styleBinding = res
 }
