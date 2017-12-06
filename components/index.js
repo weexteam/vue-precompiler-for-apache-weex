@@ -1,5 +1,5 @@
 module.exports = {
-  div: require('./div'),
-  figure: require('./image'),
-  p: require('./text')
+  div: require('./div').processDiv,
+  figure: require('./image').processImage,
+  p: require('./text').processText
 }

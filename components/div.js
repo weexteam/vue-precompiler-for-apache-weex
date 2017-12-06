@@ -1,4 +1,4 @@
-module.exports = function processDiv (
+exports.processDiv = function (
   el,
   attrsMap,
   attrsList,

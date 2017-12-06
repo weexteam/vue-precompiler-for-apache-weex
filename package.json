@@ -18,6 +18,7 @@
     "escodegen": "^1.9.0",
     "esprima": "^4.0.0",
     "postcss": "^6.0.14",
-    "postcss-plugin-px2rem": "^0.7.0"
+    "postcss-plugin-px2rem": "^0.7.0",
+    "wxv-transformer": "^0.1.0"
   }
 }

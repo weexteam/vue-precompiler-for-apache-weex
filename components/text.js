@@ -11,7 +11,7 @@ function getLinesStaticStyle () {
   }
 }
 
-module.exports = function processText (
+exports.processText = function (
   el,
   attrsMap,
   attrsList,
@@ -19,29 +19,13 @@ module.exports = function processText (
   staticClass
 ) {
   const staticStyle = getStaticStyleObject(el)
-  let hasBindings = false
-  const bindingLinesReg = /lines['"]?\s*:([^,}]+)/
-  const styleBinding = el.styleBinding
-  const bindingMatch = (styleBinding + '').match(bindingLinesReg)
-  if (bindingMatch && bindingMatch[1]) {
-    hasBindings = true
-  }
   let n = staticStyle.lines
-  if ((n > 0) || hasBindings) {
+  if (n > 0) {
     extend(staticStyle ,getLinesStaticStyle())
-    if (n > 0) {
-      extend(staticStyle, {
-        '-webkit-line-clamp': n
-      })
-      el.staticStyle = JSON.stringify(staticStyle)
-    }
-    else {
-      el.styleBinding = styleBinding.replace(
-        bindingLinesReg,
-        function($0, $1) {
-          return `webkitLineClamp:${$1}`
-        })
-    }
+    extend(staticStyle, {
+      '-webkit-line-clamp': n
+    })
+    el.staticStyle = JSON.stringify(staticStyle)
   }
 
   const finalClass = staticClass + ' weex-el weex-text'

@@ -25,7 +25,32 @@ const config = {
   },
   px2rem: {
     rootValue: 75
-  }
+  },
+  bindingStyleNamesForPx2Rem: [
+    'width',
+    'height',
+    'border',
+    'borderWidth',
+    'borderLeft',
+    'borderRight',
+    'borderTop',
+    'borderBottom',
+    'borderLeftWidth',
+    'borderRightWidth',
+    'borderTopWidth',
+    'borderBottomWidth',
+    'margin',
+    'marginLeft',
+    'marginRight',
+    'marginTop',
+    'marginBottom',
+    'padding',
+    'paddingLeft',
+    'paddingRight',
+    'paddingTop',
+    'paddingBottom',
+    'fontSize'
+  ]
 }
 
 module.exports = config

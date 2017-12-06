@@ -12,7 +12,7 @@ function getResizeStyle (resize) {
   return { 'background-size': bgSize }
 }
 
-module.exports = function processImg (
+exports.processImage = function (
   el,
   attrsMap,
   attrsList,
