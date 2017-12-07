@@ -49,7 +49,12 @@ const config = {
     'paddingRight',
     'paddingTop',
     'paddingBottom',
-    'fontSize'
+    'fontSize',
+    'transform',
+    'webkitTransform',
+    'WebkitTransform',
+    'mozTransform',
+    'MozTransform'
   ]
 }
 

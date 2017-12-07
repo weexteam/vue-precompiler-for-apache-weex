@@ -5,6 +5,24 @@ const transEvtsMap = {
   offsetDisappear: 'offset-disappear'
 }
 
+// check whether this el has a parent with bubble=true attribute.
+function hasBubbleParent (el) {
+  let parent = el.parent
+  while (parent) {
+    if (parent._bubble || parent._hasBubbleParent === true) {
+      el._hasBubbleParent = true
+      return true
+    }
+    else if (parent._hasBubbleParent === false) {
+      el._hasBubbleParent = false
+      return false
+    }
+    parent = parent.parent
+  }
+  el._hasBubbleParent = false
+  return false
+}
+
 module.exports = function eventsHook (
   el,
   attrsMap,
@@ -43,6 +61,23 @@ module.exports = function eventsHook (
     if (clickObj) {
       evts['tap'] = clickObj
       delete evts['click']
+    }
+  }
+
+  // bind _bubble attr for every node.
+  const bubble = attrsMap.bubble
+  if (bubble === 'true' || bubble === true) {
+    el._bubble = true
+  }
+
+  // stop propagation by default unless attr 'bubble' is set to true.
+  if (evts) {
+    if (!hasBubbleParent(el)) {
+      for (const k in evts) {
+        const evt = evts[k]
+        const modifiers = evt.modifiers || (evt.modifiers = {})
+        modifiers.stop = true
+      }
     }
   }
 }
