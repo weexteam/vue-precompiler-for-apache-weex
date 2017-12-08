@@ -30,11 +30,19 @@ module.exports = function eventsHook (
   attrs,
   staticClass
 ) {
-  const eventMap = this.config.eventMap
+  // bind _bubble attr for every node.
+  const bubble = attrsMap.bubble
+  if (bubble === 'true' || bubble === true) {
+    el._bubble = true
+  }
+
+  const { eventMap, weexEvents } = this.config
   const evts = el.events
+
   // bind events to nativeEvents.
   el.nativeEvents = evts
-  if (el.hasBindings && evts) {
+
+  if (evts) {
     const evtKeys = Object.keys(evts)
     for (let i = 0, l = evtKeys.length; i < l; i++) {
       const key = evtKeys[i]
@@ -53,6 +61,21 @@ module.exports = function eventsHook (
     }
 
     /**
+     * stop propagation by default unless attr 'bubble' is set to true.
+     * only for weex events, user defined events should not be stopped
+     * by default.
+     */ 
+    if (!hasBubbleParent(el)) {
+      for (const k in evts) {
+        if (weexEvents.indexOf(k) > -1) {
+          const evt = evts[k]
+          const modifiers = evt.modifiers || (evt.modifiers = {})
+          modifiers.stop = true
+        }
+      }
+    }
+
+    /**
      * map event handlers.
      * - click -> weex$tap
      * - scroll -> weex$scroll
@@ -65,22 +88,4 @@ module.exports = function eventsHook (
       }
     }
   }
-
-  // bind _bubble attr for every node.
-  const bubble = attrsMap.bubble
-  if (bubble === 'true' || bubble === true) {
-    el._bubble = true
-  }
-
-  // stop propagation by default unless attr 'bubble' is set to true.
-  if (evts) {
-    if (!hasBubbleParent(el)) {
-      for (const k in evts) {
-        const evt = evts[k]
-        const modifiers = evt.modifiers || (evt.modifiers = {})
-        modifiers.stop = true
-      }
-    }
-  }
-  // console.log('===>', el, el.nativeEvents)
 }

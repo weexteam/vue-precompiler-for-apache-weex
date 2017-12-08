@@ -3,6 +3,45 @@ const config = {
     click: 'weex$tap',
     scroll: 'weex$scroll'
   },
+  weexEvents: [
+    'click',
+    'tap',
+    'scroll',
+    // gesture
+    'touchstart',
+    'touchend',
+    'touchmove',
+    'swipe',
+    'panstart',
+    'panmove',
+    'panend',
+    'longpress',
+    'long',
+    // input & switch & slider
+    'input',
+    'key',
+    'keyup',
+    'keydown',
+    'return',
+    'change',
+    'focus',
+    'blur',
+    'active',
+    // appear series.
+    'appear',
+    'disappear',
+    'offsetAppear',
+    'offsetDisappear',
+    // refresh & loading
+    'refresh',
+    'pullingdown',
+    'loading',
+    // video
+    'start',
+    'pause',
+    'finish',
+    'fail'
+  ],
   // preservedTags: [
   //   'a',
   //   'container',
