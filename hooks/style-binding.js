@@ -90,16 +90,19 @@ function styleBindingHook (
   }
   const statement = `a = ${styleBinding.trim()}`
   let ast = esprima.parse(statement).body[0].expression.right
-  if (ast.type === 'Identifier') {
-    ast = transformVariable(ast, el._origTag)
-  } else if (ast.type === 'ArrayExpression') {
+  if (ast.type === 'ArrayExpression') {
     const elements = ast.elements
     for (let i = 0, l = elements.length; i < l; i++) {
       const element = elements[i]
       if (element.type === 'ObjectExpression') {
         transformObject(element, el._origTag)
       }
-      else if (element.type === 'Identifier') {
+      /**
+       * otherwise element.type ===
+       *  - 'Identifier': varaibles
+       *  - 'MemberExpression': member of varaibles
+       */
+      else {
         elements[i] = transformVariable(element, el._origTag)
       }
     }
@@ -108,7 +111,12 @@ function styleBindingHook (
     transformObject(ast, el._origTag)
   }
   else {
-    return
+    /**
+     * ast.type ===
+     *  - Identifier (varaible)
+     *  - MemberExpression (somObj.somProp)
+     */
+    ast = transformVariable(ast, el._origTag)
   }
 
   const res = escodegen.generate(ast, {
