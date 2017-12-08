@@ -1,25 +1,29 @@
 const config = {
-  preservedTags: [
-    'a',
-    'container',
-    'div',
-    'image',
-    'img',
-    'text',
-    'input',
-    'switch',
-    'list',
-    'scroller',
-    'waterfall',
-    'slider',
-    'indicator',
-    'loading-indicator',
-    'loading',
-    'refresh',
-    'textarea',
-    'video',
-    'web'
-  ],
+  eventMap: {
+    click: 'weex$tap',
+    scroll: 'weex$scroll'
+  },
+  // preservedTags: [
+  //   'a',
+  //   'container',
+  //   'div',
+  //   'image',
+  //   'img',
+  //   'text',
+  //   'input',
+  //   'switch',
+  //   'list',
+  //   'scroller',
+  //   'waterfall',
+  //   'slider',
+  //   'indicator',
+  //   'loading-indicator',
+  //   'loading',
+  //   'refresh',
+  //   'textarea',
+  //   'video',
+  //   'web'
+  // ],
   autoprefixer: {
     browsers: ['> 0.1%', 'ios >= 8', 'not ie < 12']
   },
@@ -29,6 +33,10 @@ const config = {
   bindingStyleNamesForPx2Rem: [
     'width',
     'height',
+    'left',
+    'right',
+    'top',
+    'bottom',
     'border',
     'borderWidth',
     'borderLeft',

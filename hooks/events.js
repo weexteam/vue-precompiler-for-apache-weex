@@ -30,14 +30,10 @@ module.exports = function eventsHook (
   attrs,
   staticClass
 ) {
-  const preservedTags = this.config.preservedTags
-  const isPreserved = preservedTags.indexOf(el._origTag || el.tag) > -1
-  // process appear evts series:
+  const eventMap = this.config.eventMap
   const evts = el.events
-  if (!isPreserved) {
-    // bind events to nativeEvents.
-    el.nativeEvents = evts
-  }
+  // bind events to nativeEvents.
+  el.nativeEvents = evts
   if (el.hasBindings && evts) {
     const evtKeys = Object.keys(evts)
     for (let i = 0, l = evtKeys.length; i < l; i++) {
@@ -56,11 +52,17 @@ module.exports = function eventsHook (
       })
     }
 
-    // map click handler to tap handler.
-    const clickObj = evts['click']
-    if (clickObj) {
-      evts['tap'] = clickObj
-      delete evts['click']
+    /**
+     * map event handlers.
+     * - click -> weex$tap
+     * - scroll -> weex$scroll
+     */
+    for (const k in eventMap) {
+      const evtObj = evts[k]
+      if (evtObj) {
+        evts[eventMap[k]] = evtObj
+        delete evts[k]
+      }
     }
   }
 
@@ -80,4 +82,5 @@ module.exports = function eventsHook (
       }
     }
   }
+  // console.log('===>', el, el.nativeEvents)
 }
