@@ -15,9 +15,13 @@ const precompile = require('weex-vue-precompiler')(/*optional config*/)
 // in vue config:
 {
   optimizeSSR: false,
-  postcss: [require('autoprefixer')({
-    browsers: ['> 0.1%', 'ios >= 8', 'not ie < 12']
-  }), require('postcss-plugin-px2rem')({ rootValue: 75 })],
+  postcss: [
+    require('postcss-plugin-weex')(),
+    require('autoprefixer')({
+      browsers: ['> 0.1%', 'ios >= 8', 'not ie < 12']
+    }),
+    require('postcss-plugin-px2rem')({ rootValue: 75 })
+  ],
   compilerModules: [
     {
       postTransformNode: el => precompile(el)
