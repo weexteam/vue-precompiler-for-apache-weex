@@ -20,14 +20,15 @@ exports.processImage = function (
   staticClass
 ) {
   // src => data-img-src. both binding and static.
-  const bindingUrl = attrsMap[':src']
-  const staticUrl = attrsMap['src']
-  const url = bindingUrl || staticUrl
-  const isBinding = !!bindingUrl
-  attrs.push({
-    name: 'data-img-src',
-    value: isBinding ? url : `"${url}"`
-  })
+  for (let i = 0, l = attrs.length; i < l; i++) {
+    const { name, value } = attrs[i]
+    if (name === 'src') {
+      attrs.push({
+        name: 'data-img-src',
+        value
+      })
+    }
+  }
   /**
    * resize: => background-position
    * NOTE: only static value is valid for resize.

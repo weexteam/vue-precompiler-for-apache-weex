@@ -1,3 +1,5 @@
+const esprima = require('esprima')
+
 exports.extend = function (to, from) {
   if (!to) { return }
   const args = Array.prototype.slice.call(arguments, 1)
@@ -31,3 +33,23 @@ exports.getStaticStyleObject = function (el) {
   }
   return staticStyle || {}
 }
+
+const parseAst = function parseAst (val) {
+  let statement = 'a = '
+  if (typeof val === 'object') {
+    statement += `${JSON.stringify(val)}`
+  }
+  else {
+    statement += val
+  }
+  const cached = parseAst._cached[statement]
+  if (cached) {
+    return cached
+  }
+  const ast = esprima.parse(statement)
+    .body[0].expression.right
+  parseAst._cached[statement] = ast
+  return ast
+}
+parseAst._cached = {}
+exports.parseAst = parseAst

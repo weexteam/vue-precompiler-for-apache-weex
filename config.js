@@ -67,7 +67,8 @@ const config = {
     browsers: ['> 0.1%', 'ios >= 8', 'not ie < 12']
   },
   px2rem: {
-    rootValue: 75
+    rootValue: 75,
+    minPixelValue: 1.01
   },
   bindingStyleNamesForPx2Rem: [
     'width',
@@ -77,7 +78,7 @@ const config = {
     'top',
     'bottom',
     'border',
-    'border-radius',
+    'borderRadius',
     'borderWidth',
     'borderLeft',
     'borderRight',
@@ -98,12 +99,13 @@ const config = {
     'paddingTop',
     'paddingBottom',
     'fontSize',
-    'line-height',
+    'lineHeight',
     'transform',
     'webkitTransform',
     'WebkitTransform',
     'mozTransform',
-    'MozTransform'
+    'MozTransform',
+    'itemSize'
   ]
 }
 

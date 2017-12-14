@@ -6,28 +6,18 @@ const esprima = require('esprima')
 const escodegen = require('escodegen')
 const bindingStyleNamesForPx2Rem = require('../config').bindingStyleNamesForPx2Rem
 
+const { parseAst } = require('../util')
 const { getCompiler, getTransformer } = require('wxv-transformer')
 
-// const exp = `a = {width: 'w', height: 'h'}`
-// const ast = esprima.parse(exp)
-// console.log('ast:', JSON.stringify(ast, null, 2))
-
 /**
- * for test
- */ 
-// const exp = `abc`
-// const exp = `[{width:w}, abc]`
-// styleBindingHook({ styleBinding: exp })
-
-/**
- * transform :style="{width:w}" => :style="{width:_px2rem(w)}"
+ * transform :style="{width:w}" => :style="{width:_px2rem(w, rootValue)}"
  * This kind of style binding with object literal is a good practice.
  * @param {ObjectExpression} obj
  */
-function transformObject (obj, origTagName) {
+function transformObject (obj, origTagName, rootValue) {
   const compiler = getCompiler(origTagName)
   if (compiler) {
-    return compiler.compile(obj, bindingStyleNamesForPx2Rem)
+    return compiler.compile(obj, bindingStyleNamesForPx2Rem, rootValue)
   }
   const properties = obj.properties
   for (let i = 0, l = properties.length; i < l; i++) {
@@ -43,24 +33,25 @@ function transformObject (obj, origTagName) {
           type: 'Identifier',
           name: '_px2rem'
         },
-        arguments: [valNode, { type: 'Literal', value: 75 }]
+        arguments: [valNode, { type: 'Literal', value: rootValue }]
       }
     }
   }
 }
 
 /**
- * transform :style="someObj" => :style="_px2rem(someObj)"
+ * transform :style="someObj" => :style="_px2rem(someObj, opts)"
  * This kind of binding with object variable could cause runtime
  * performance reducing.
  * @param {Identifier} node
  * @param {string} tagName
  */
-function transformVariable (node, tagName) {
+function transformVariable (node, tagName, rootValue) {
   let callName = '_px2rem'
-  const args = [node, { type: 'Literal', value: 75 }]
+  const args = [node, { type: 'Literal', value: rootValue }]
   const transformer = getTransformer(tagName)
   if (transformer) {
+    // special treatment for exclusive styles, such as text-lines
     callName = '_processExclusiveStyle'
     args.push({
       type: 'Literal',
@@ -88,14 +79,14 @@ function styleBindingHook (
   if (!styleBinding) {
     return
   }
-  const statement = `a = ${styleBinding.trim()}`
-  let ast = esprima.parse(statement).body[0].expression.right
+  let ast = parseAst(styleBinding.trim())
+  const { rootValue } = this.config.px2rem
   if (ast.type === 'ArrayExpression') {
     const elements = ast.elements
     for (let i = 0, l = elements.length; i < l; i++) {
       const element = elements[i]
       if (element.type === 'ObjectExpression') {
-        transformObject(element, el._origTag)
+        transformObject(element, el._origTag || el.tag, rootValue)
       }
       /**
        * otherwise element.type ===
@@ -103,12 +94,12 @@ function styleBindingHook (
        *  - 'MemberExpression': member of varaibles
        */
       else {
-        elements[i] = transformVariable(element, el._origTag)
+        elements[i] = transformVariable(element, el._origTag || el.tag, rootValue)
       }
     }
   }
   else if (ast.type === 'ObjectExpression') {
-    transformObject(ast, el._origTag)
+    transformObject(ast, el._origTag || el.tag, rootValue)
   }
   else {
     /**
@@ -116,9 +107,8 @@ function styleBindingHook (
      *  - Identifier (varaible)
      *  - MemberExpression (somObj.somProp)
      */
-    ast = transformVariable(ast, el._origTag)
+    ast = transformVariable(ast, el._origTag || el.tag, rootValue)
   }
-
   const res = escodegen.generate(ast, {
     format: {
       indent: {
