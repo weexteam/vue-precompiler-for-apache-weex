@@ -44,11 +44,13 @@ module.exports = function eventsHook (
 
   if (evts) {
     const evtKeys = Object.keys(evts)
+    let marked = false
     for (let i = 0, l = evtKeys.length; i < l; i++) {
       const key = evtKeys[i]
       const transKey = transEvtsMap[key]
       const evtName = transKey || key
-      if (transKey) {
+      if (transKey && !marked) {
+        marked = true
         attrs.push({
           name: `weex-appear`,
           value: '""'
