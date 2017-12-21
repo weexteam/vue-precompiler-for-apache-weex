@@ -3,6 +3,8 @@ const config = {
     click: 'weex$tap',
     scroll: 'weex$scroll'
   },
+  // add .stop to stop propagation for weex native events only.
+  // user defined events may not have the stopPropagation method.
   weexEvents: [
     'click',
     'tap',
