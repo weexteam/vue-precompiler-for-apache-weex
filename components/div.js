@@ -5,6 +5,6 @@ exports.processDiv = function (
   attrs,
   staticClass
 ) {
-  const finalClass = staticClass + ' weex-ct'
+  const finalClass = staticClass + ' weex-ct weex-div'
   el.staticClass = `"${finalClass}"`
 }
