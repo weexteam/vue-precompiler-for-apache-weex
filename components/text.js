@@ -30,4 +30,8 @@ exports.processText = function (
 
   const finalClass = staticClass + ' weex-el weex-text'
   el.staticClass = `"${finalClass}"`
+  attrs.push({
+    name: `weex-type`,
+    value: '"div"'
+  })
 }

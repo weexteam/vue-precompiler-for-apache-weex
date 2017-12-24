@@ -37,6 +37,10 @@ exports.processImage = function (
   const staticStyle = getStaticStyleObject(el)
   extend(staticStyle, getResizeStyle(resize))
   el.staticStyle = JSON.stringify(staticStyle)
-  const finalClass = staticClass + ' weex-el weex-img'
+  const finalClass = staticClass + ' weex-el weex-image'
   el.staticClass = `"${finalClass}"`
+  attrs.push({
+    name: `weex-type`,
+    value: '"image"'
+  })
 }
