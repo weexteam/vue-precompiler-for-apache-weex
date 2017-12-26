@@ -43,4 +43,5 @@ exports.processImage = function (
     name: `weex-type`,
     value: '"image"'
   })
+  el.plain = false
 }

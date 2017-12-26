@@ -11,4 +11,5 @@ exports.processDiv = function (
     name: `weex-type`,
     value: '"div"'
   })
+  el.plain = false
 }
