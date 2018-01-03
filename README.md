@@ -1,6 +1,6 @@
 # weex-vue-precompiler
 
-[![build](https://travis-ci.org/weexteam/weex-vue-precompiler.svg?branch=master)](https://travis-ci.org/MrRaindrop/weex-vue-precompiler)
+[![build](https://travis-ci.org/MrRaindrop/weex-vue-precompiler.svg?branch=master)](https://travis-ci.org/MrRaindrop/weex-vue-precompiler)
 [![pkg](https://img.shields.io/npm/v/weex-vue-precompiler.svg?style=flat)](https://npmjs.com/package/weex-vue-precompiler)
 [![down](https://img.shields.io/npm/dm/weex-vue-precompiler.svg)](https://npmjs.com/package/weex-vue-precompiler)
 [![Package Quality](http://npm.packagequality.com/shield/weex-vue-precompiler.svg)](http://packagequality.com/#?package=weex-vue-precompiler)
