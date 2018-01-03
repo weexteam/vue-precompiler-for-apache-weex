@@ -8,7 +8,22 @@ function getLinesStaticStyle (n) {
   return {
     overflow: 'hidden',
     'text-overflow': 'ellipsis',
-    '-webkit-line-clamp': n
+    '-webkit-line-clamp': `${n}`
+  }
+}
+
+exports.processLines = function (el) {
+  const tag = el._origTag || el.tag
+  if (
+    this.config.preservedTags.indexOf(tag) > -1
+    && tag !== 'text') {
+    return
+  }
+  const staticStyle = getStaticStyleObject(el)
+  const n = parseInt(staticStyle.lines)
+  if (n > 0 && !isNaN(n)) {
+    extend(staticStyle, getLinesStaticStyle(n))
+    el.staticStyle = JSON.stringify(staticStyle)
   }
 }
 
@@ -19,13 +34,6 @@ exports.processText = function (
   attrs,
   staticClass
 ) {
-  const staticStyle = getStaticStyleObject(el)
-  let n = staticStyle.lines
-  if (n > 0) {
-    extend(staticStyle ,getLinesStaticStyle(n))
-    el.staticStyle = JSON.stringify(staticStyle)
-  }
-
   const finalClass = staticClass + ' weex-el weex-text'
   el.staticClass = `"${finalClass}"`
   attrs.push({

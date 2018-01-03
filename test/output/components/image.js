@@ -5,6 +5,7 @@ module.exports = [
     _origTag: 'image',
     nativeEvents: undefined,
     plain: false,
+    hasBindings: true,
     attrs: [
       {
         name: 'src',
@@ -14,7 +15,7 @@ module.exports = [
         value: '"#placeholder"'
       }, {
         name: 'resize',
-        value: '"cover"'
+        value: 'resize'
       }, {
         name: 'data-img-src',
         value: '"#src"'
@@ -23,9 +24,16 @@ module.exports = [
         value: '"image"'
       }
     ],
+    directives: [
+      {
+        name: 'weex-resize',
+        rawName: 'v-weex-resize',
+        value: 'resize',
+        arg: null,
+        modifiers: undefined
+      }
+    ],
     staticClass: '"img weex-el weex-image"',
-    staticStyle: '{"background-size":"cover"}',
-    // static: false
   }, {
     type: 1,
     tag: 'div',

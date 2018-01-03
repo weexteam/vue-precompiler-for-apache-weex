@@ -1,4 +1,4 @@
-const { extend } = require('../../../util')
+const { extend } = require('../../../src/util')
 
 module.exports = [
   {

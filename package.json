@@ -2,7 +2,7 @@
   "name": "weex-vue-precompiler",
   "version": "0.1.13",
   "description": "a precompiler for weex-vue-render.",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
     "test": "mocha"
   },

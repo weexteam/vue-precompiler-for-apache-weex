@@ -3,7 +3,7 @@ const fs = require('fs-extra')
 const webpack = require('webpack')
 const expect = require('chai').expect
 const merge = require('webpack-merge')
-const compile = require('../index')()
+const compile = require('../src/index')()
 const baseWebpackConfig = require('./webpack.config')
 const getVueLoader = require('./get-vue-loader')
 
