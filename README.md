@@ -1,5 +1,10 @@
 # weex-vue-precompiler
 
+[![build](https://travis-ci.org/weexteam/weex-vue-precompiler.svg?branch=master)](https://travis-ci.org/weexteam/weex-vue-precompiler)
+[![pkg](https://img.shields.io/npm/v/weex-vue-precompiler.svg?style=flat)](https://npmjs.com/package/weex-vue-precompiler)
+[![down](https://img.shields.io/npm/dm/weex-vue-precompiler.svg)](https://npmjs.com/package/weex-vue-precompiler)
+[![Package Quality](http://npm.packagequality.com/shield/weex-vue-precompiler.svg)](http://packagequality.com/#?package=weex-vue-precompiler)
+
 weex-vue-precompiler is a node transformer plugin for vue-loader. The main purpose is to precompile nodes for [weex-vue-render](https://www.npmjs.com/package/weex-vue-render) to reduce performance consumption in render's runtime.
 
 Use this precompiler can save you a lot of render time for weex running on web using weex-vue-render.
