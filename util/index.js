@@ -11,6 +11,7 @@ exports.extend = function (to, from) {
       }
     }
   }
+  return to
 }
 
 const camelizeRE = /-(\w)/g

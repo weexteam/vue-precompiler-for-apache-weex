@@ -43,5 +43,6 @@ exports.processImage = function (
     name: `weex-type`,
     value: '"image"'
   })
+  delete el.ns
   el.plain = false
 }

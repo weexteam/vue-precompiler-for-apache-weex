@@ -4,10 +4,11 @@ const {
   getStaticStyleObject
 } = util
 
-function getLinesStaticStyle () {
+function getLinesStaticStyle (n) {
   return {
     overflow: 'hidden',
     'text-overflow': 'ellipsis',
+    '-webkit-line-clamp': n
   }
 }
 
@@ -21,10 +22,7 @@ exports.processText = function (
   const staticStyle = getStaticStyleObject(el)
   let n = staticStyle.lines
   if (n > 0) {
-    extend(staticStyle ,getLinesStaticStyle())
-    extend(staticStyle, {
-      '-webkit-line-clamp': n
-    })
+    extend(staticStyle ,getLinesStaticStyle(n))
     el.staticStyle = JSON.stringify(staticStyle)
   }
 
@@ -32,7 +30,8 @@ exports.processText = function (
   el.staticClass = `"${finalClass}"`
   attrs.push({
     name: `weex-type`,
-    value: '"div"'
+    value: '"text"'
   })
+  delete el.ns
   el.plain = false
 }
