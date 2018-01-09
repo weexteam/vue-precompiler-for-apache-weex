@@ -19,24 +19,7 @@ module.exports = [
         }
       },
       click: {
-        value: '$stopOutterA'
-      }
-    },
-    nativeEvents: {
-      appear: {
-        value: 'appear',
-        modifiers: {
-          stop: true
-        }
-      },
-      weex$tap: {
-        value: 'click',
-        modifiers: {
-          stop: true
-        }
-      },
-      click: {
-        value: '$stopOutterA'
+        value: '$stopOuterA'
       }
     },
     attrs: [
@@ -59,7 +42,6 @@ module.exports = [
   }, {
     type: 1,
     tag: 'div',
-    nativeEvents: undefined,
     plain: false,
     attrs: [
       {

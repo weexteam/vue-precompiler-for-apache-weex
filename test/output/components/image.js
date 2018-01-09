@@ -3,7 +3,6 @@ module.exports = [
     type: 1,
     tag: 'figure',
     _origTag: 'image',
-    nativeEvents: undefined,
     plain: false,
     hasBindings: true,
     attrs: [
@@ -37,7 +36,6 @@ module.exports = [
   }, {
     type: 1,
     tag: 'div',
-    nativeEvents: undefined,
     plain: false,
     attrs: [
       {

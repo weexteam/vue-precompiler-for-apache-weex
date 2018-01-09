@@ -3,11 +3,6 @@ module.exports = [
     type: 1,
     tag: 'a',
     _hasBubbleParent: false,
-    nativeEvents: {
-      'weex$tap': {
-        value: '$stopPropagation'
-      }
-    },
     events: {
       'weex$tap': {
         value: '$stopPropagation'
@@ -28,7 +23,6 @@ module.exports = [
   }, {
     type: 1,
     tag: 'div',
-    nativeEvents: undefined,
     plain: false,
     attrs: [
       {

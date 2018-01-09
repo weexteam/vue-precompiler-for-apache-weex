@@ -4,7 +4,6 @@ module.exports = [
     tag: 'section',
     _origTag: 'cell',
     plain: false,
-    nativeEvents: undefined,
     static: false,
     attrs: [
       {

@@ -89,8 +89,8 @@ module.exports = function eventsHook (
 
   const { weexEvents } = this.config
   let evts = el.events
-  // bind events to nativeEvents.
-  el.nativeEvents = evts
+  // bind events to events and remove nativeEvents.
+  delete el.nativeEvents
 
   if (evts) {
     const evtKeys = Object.keys(evts)
@@ -138,7 +138,7 @@ module.exports = function eventsHook (
       evts['weex$tap'] = extend({}, evts.click)
       if (!hasBubbleParent) {
         evts.click = {
-          value: '$stopOutterA'
+          value: '$stopOuterA'
         }
       }
     }
@@ -154,7 +154,7 @@ module.exports = function eventsHook (
    */
   if (el.tag === 'a') {
     if (!evts) {
-      evts = el.events = el.nativeEvents = {}
+      evts = el.events = {}
     }
     if (!checkBubble(el)) {
       const evt = evts['weex$tap']

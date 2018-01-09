@@ -15,18 +15,7 @@ module.exports = [
         }
       },
       click: {
-        value: '$stopOutterA'
-      }
-    },
-    nativeEvents: {
-      weex$tap: {
-        value: 'innerClick',
-        modifiers: {
-          stop: true
-        }
-      },
-      click: {
-        value: '$stopOutterA'
+        value: '$stopOuterA'
       }
     },
     attrs: [
@@ -44,11 +33,6 @@ module.exports = [
     type: 1,
     tag: 'a',
     _hasBubbleParent: false,
-    nativeEvents: {
-      'weex$tap': {
-        value: '$stopPropagation'
-      }
-    },
     events: {
       'weex$tap': {
         value: '$stopPropagation'
@@ -79,18 +63,7 @@ module.exports = [
         }
       },
       click: {
-        value: '$stopOutterA'
-      }
-    },
-    nativeEvents: {
-      weex$tap: {
-        value: 'outerClick',
-        modifiers: {
-          stop: true
-        }
-      },
-      click: {
-        value: '$stopOutterA'
+        value: '$stopOuterA'
       }
     },
     plain: false,

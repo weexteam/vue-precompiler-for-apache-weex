@@ -5,7 +5,6 @@ module.exports = [
     type: 1,
     tag: 'p',
     _origTag: 'text',
-    nativeEvents: undefined,
     plain: false,
     attrs: [
       {
@@ -26,7 +25,6 @@ module.exports = [
   }, {
     type: 1,
     tag: 'div',
-    nativeEvents: undefined,
     plain: false,
     attrs: [
       {
