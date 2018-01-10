@@ -74,6 +74,68 @@ function checkBubble (el) {
   )[0]
 }
 
+/**
+ * bind events and nativeEvents:
+ *  - with appear events: weex-appear, data-evt-xxx
+ *  - with all weex events: stop propagation by default.
+ *  - with click and scroll events: weex$tap and weex$scroll.
+ */
+function bindEvents(evts, el, attrs, weexEvents) {
+  const evtKeys = Object.keys(evts)
+  el._markedAppear = false
+  for (let i = 0, l = evtKeys.length; i < l; i++) {
+    const key = evtKeys[i]
+    const transKey = transEvtsMap[key]
+    const evtName = transKey || key
+    if (transKey && !el._markedAppear) {
+      el._markedAppear = true
+      attrs.push({
+        name: `weex-appear`,
+        value: '""'
+      })
+    }
+    attrs.push({
+      name: `data-evt-${evtName}`,
+      value: '""'
+    })
+  }
+
+  const hasBubbleParent = checkBubble(el)
+
+  /**
+   * stop propagation by default unless attr 'bubble' is set to true.
+   * only for weex events, user defined events should not be stopped
+   * by default.
+   */
+  if (!hasBubbleParent) {
+    for (const k in evts) {
+      if (weexEvents.indexOf(k) > -1) {
+        const evt = evts[k]
+        const modifiers = evt.modifiers || (evt.modifiers = {})
+        modifiers.stop = true
+      }
+    }
+  }
+
+  /**
+   * map event handlers.
+   * - click -> weex$tap
+   * - scroll -> weex$scroll
+   */
+  if (evts.click) {
+    evts['weex$tap'] = extend({}, evts.click)
+    if (!hasBubbleParent) {
+      evts.click = {
+        value: '$stopOuterA'
+      }
+    }
+  }
+  if (evts.scroll) {
+    evts['weex$scroll'] = evts.scroll
+    delete evts.scroll
+  }
+}
+
 module.exports = function eventsHook (
   el,
   attrsMap,
@@ -89,64 +151,23 @@ module.exports = function eventsHook (
 
   const { weexEvents } = this.config
   let evts = el.events
-  // bind events to events and remove nativeEvents.
-  delete el.nativeEvents
+  const nativeEvts = el.nativeEvents
 
-  if (evts) {
-    const evtKeys = Object.keys(evts)
-    let marked = false
-    for (let i = 0, l = evtKeys.length; i < l; i++) {
-      const key = evtKeys[i]
-      const transKey = transEvtsMap[key]
-      const evtName = transKey || key
-      if (transKey && !marked) {
-        marked = true
-        attrs.push({
-          name: `weex-appear`,
-          value: '""'
-        })
-      }
-      attrs.push({
-        name: `data-evt-${evtName}`,
-        value: '""'
-      })
+  try {
+    if (evts) {
+      bindEvents(evts, el, attrs, weexEvents)
     }
-
-    const hasBubbleParent = checkBubble(el)
-
-    /**
-     * stop propagation by default unless attr 'bubble' is set to true.
-     * only for weex events, user defined events should not be stopped
-     * by default.
-     */
-    if (!hasBubbleParent) {
-      for (const k in evts) {
-        if (weexEvents.indexOf(k) > -1) {
-          const evt = evts[k]
-          const modifiers = evt.modifiers || (evt.modifiers = {})
-          modifiers.stop = true
-        }
-      }
+    if (nativeEvts) {
+      bindEvents(nativeEvts, el, attrs, weexEvents)
     }
-
-    /**
-     * map event handlers.
-     * - click -> weex$tap
-     * - scroll -> weex$scroll
-     */
-    if (evts.click) {
-      evts['weex$tap'] = extend({}, evts.click)
-      if (!hasBubbleParent) {
-        evts.click = {
-          value: '$stopOuterA'
-        }
-      }
+    else {
+      delete el.nativeEvents
     }
-    if (evts.scroll) {
-      evts['weex$scroll'] = evts.scroll
-      delete evts.scroll
-    }
+  } catch (err) {
+    console.error('err=======>', err)
   }
+  
+  delete el._markedAppear
 
   /**
    * binding a weex$tap to <a> element to stop propagation if there
