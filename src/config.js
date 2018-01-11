@@ -3,6 +3,35 @@ const config = {
     click: 'weex$tap',
     scroll: 'weex$scroll'
   },
+  // these components should auto bind events with .native.
+  weexRegisteredComponents: [
+    'input',
+    'switch',
+    'list',
+    'scroller',
+    'waterfall',
+    'header',
+    'loading',
+    'refresh',
+    'loading-indicator',
+    'slider',
+    'cycleslider',
+    'slider-neighbor',
+    'indicator',
+    'textarea',
+    'video',
+    'web'
+  ],
+  // these components should not bind events with .native.
+  weexBuiltInComponents: [
+    'div',
+    'container',
+    'text',
+    'image',
+    'img',
+    'cell',
+    'a'
+  ],
   // add .stop to stop propagation for weex native events only.
   // user defined events may not have the stopPropagation method.
   weexEvents: [

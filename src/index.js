@@ -31,6 +31,18 @@ class Precompiler {
     const args = [el, attrsMap, attrsList, attrs, staticClass]
   
     const tag = identifyTag(el)
+
+    const { weexBuiltInComponents, weexRegisteredComponents } = this.config
+    if (weexBuiltInComponents.indexOf(el._origTag || el.tag) > -1) {
+      el._weexBuiltIn = true
+    }
+    else if (weexRegisteredComponents.indexOf(el.tag) > -1) {
+      el._weexRegistered = true
+    }
+    else {
+      el._userRegistered = true
+    }
+
     // use component processors to process components' special attrs.
     const processor = components[tag]
     if (processor) {

@@ -5,6 +5,7 @@ module.exports = [
     type: 1,
     tag: 'p',
     _origTag: 'text',
+    _weexBuiltIn: true,
     plain: false,
     attrs: [
       {
@@ -25,6 +26,8 @@ module.exports = [
   }, {
     type: 1,
     tag: 'div',
+    _origTag: 'div',
+    _weexBuiltIn: true,
     plain: false,
     attrs: [
       {
@@ -33,7 +36,6 @@ module.exports = [
       }
     ],
     staticClass: '" weex-ct weex-div"',
-    static: false,
-    _origTag: 'div'
+    static: false
   }
 ]

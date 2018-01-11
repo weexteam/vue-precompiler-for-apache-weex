@@ -2,6 +2,7 @@ module.exports = [
   {
     type: 1,
     tag: 'a',
+    _weexBuiltIn: true,
     _hasBubbleParent: false,
     events: {
       'weex$tap': {
@@ -23,6 +24,7 @@ module.exports = [
   }, {
     type: 1,
     tag: 'div',
+    _weexBuiltIn: true,
     plain: false,
     attrs: [
       {

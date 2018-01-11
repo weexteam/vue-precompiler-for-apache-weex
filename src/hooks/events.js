@@ -80,15 +80,14 @@ function checkBubble (el) {
  *  - with all weex events: stop propagation by default.
  *  - with click and scroll events: weex$tap and weex$scroll.
  */
-function bindEvents(evts, el, attrs, weexEvents) {
+function bindEvents(evts, el, attrs, weexEvents, appearAttached) {
   const evtKeys = Object.keys(evts)
-  el._markedAppear = false
   for (let i = 0, l = evtKeys.length; i < l; i++) {
     const key = evtKeys[i]
     const transKey = transEvtsMap[key]
     const evtName = transKey || key
-    if (transKey && !el._markedAppear) {
-      el._markedAppear = true
+    if (transKey && !appearAttached.value) {
+      appearAttached.value = true
       attrs.push({
         name: `weex-appear`,
         value: '""'
@@ -151,23 +150,44 @@ module.exports = function eventsHook (
 
   const { weexEvents } = this.config
   let evts = el.events
-  const nativeEvts = el.nativeEvents
+  let nativeEvts = el.nativeEvents
 
-  try {
-    if (evts) {
-      bindEvents(evts, el, attrs, weexEvents)
-    }
-    if (nativeEvts) {
-      bindEvents(nativeEvts, el, attrs, weexEvents)
-    }
-    else {
-      delete el.nativeEvents
-    }
-  } catch (err) {
-    console.error('err=======>', err)
+  if (nativeEvts && el._builtIn) {
+    /**
+     * for div, image, text, cell, a, ...
+     * user should bind all events without .native.
+     */
+    nativeEvts = null
+    delete el.nativeEvents
   }
-  
-  delete el._markedAppear
+  if (el._weexRegistered) {
+    /**
+     * for slider, list, ...
+     * user should bind events without .native.
+     * in our events handling, all events should transfer to
+     * .native binding.
+     */
+    delete el.nativeEvents
+    nativeEvts = null
+    if (evts) {
+      nativeEvts = el.nativeEvents = evts
+    }
+    evts = null
+    delete el.events
+  }
+
+  const appearAttached = {
+    value: false
+  }
+  if (evts) {
+    bindEvents(evts, el, attrs, weexEvents, appearAttached)
+  }
+  if (nativeEvts) {
+    bindEvents(nativeEvts, el, attrs, weexEvents, appearAttached)
+  }
+  else {
+    delete el.nativeEvents
+  }
 
   /**
    * binding a weex$tap to <a> element to stop propagation if there

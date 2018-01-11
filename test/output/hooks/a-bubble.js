@@ -4,6 +4,8 @@ module.exports = [
     ref: '"inner"',
     refInFor: false,
     tag: 'div',
+    _origTag: 'div',
+    _weexBuiltIn: true,
     plain: false,
     hasBindings: true,
     _hasBubbleParent: false,
@@ -27,11 +29,11 @@ module.exports = [
         value: '""'
       }
     ],
-    staticClass: '" weex-ct weex-div"',
-    _origTag: 'div'
+    staticClass: '" weex-ct weex-div"'
   }, {
     type: 1,
     tag: 'a',
+    _weexBuiltIn: true,
     _hasBubbleParent: false,
     events: {
       'weex$tap': {
@@ -52,6 +54,8 @@ module.exports = [
   }, {
     type: 1,
     tag: 'div',
+    _origTag: 'div',
+    _weexBuiltIn: true,
     ref: '"outer"',
     refInFor: false,
     _hasBubbleParent: false,
@@ -78,7 +82,6 @@ module.exports = [
     ],
     hasBindings: true,
     staticClass: '" weex-ct weex-div"',
-    static: false,
-    _origTag: 'div'
+    static: false
   }
 ]
