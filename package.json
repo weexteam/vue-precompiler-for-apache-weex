@@ -1,6 +1,6 @@
 {
   "name": "weex-vue-precompiler",
-  "version": "0.1.15",
+  "version": "0.1.16",
   "description": "a precompiler for weex-vue-render.",
   "main": "src/index.js",
   "scripts": {
@@ -17,7 +17,7 @@
     "autoprefixer": "^7.1.6",
     "escodegen": "^1.9.0",
     "esprima": "^4.0.0",
-    "postcss": "^6.0.14",
+    "postcss": "^6.0.16",
     "postcss-plugin-px2rem": "^0.7.0",
     "wxv-transformer": "^0.1.3"
   },

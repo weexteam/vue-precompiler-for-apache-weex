@@ -40,6 +40,7 @@ const precompile = require('weex-vue-precompiler')(/*optional config*/)
 <!-- * `preservedTags`: the preserved weex components tag list. The default value is: `['a','container','div','image','img','text','input','switch','list','scroller','waterfall','slider','indicator','loading-indicator','loading','refresh','textarea','video','web']`. If you have other components as plugins installed in weex, you should add them to this lists, add pass the whole list to this. -->
 * `autoprefixer`: options for [autoprefixer](https://github.com/postcss/autoprefixer). default is { browsers: ['> 0.1%', 'ios >= 8', 'not ie < 12'] }.
 * `px2rem`: options for [postcss-plugin-px2rem](https://github.com/ant-tool/postcss-plugin-px2rem). default is: { rootValue: 75 }.
+* `aliweex`: boolean. default is false. Tell whether aliweex components are included in your project.
 
 ## feature
 

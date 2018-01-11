@@ -32,11 +32,19 @@ class Precompiler {
   
     const tag = identifyTag(el)
 
-    const { weexBuiltInComponents, weexRegisteredComponents } = this.config
+    const {
+      weexBuiltInComponents,
+      weexRegisteredComponents,
+      aliweex,
+      aliweexComponents
+    } = this.config
     if (weexBuiltInComponents.indexOf(el._origTag || el.tag) > -1) {
       el._weexBuiltIn = true
     }
-    else if (weexRegisteredComponents.indexOf(el.tag) > -1) {
+    else if (
+      weexRegisteredComponents.indexOf(el.tag) > -1
+      || aliweex && aliweexComponents.indexOf(el.tag) > -1
+    ) {
       el._weexRegistered = true
     }
     else {

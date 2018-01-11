@@ -22,6 +22,14 @@ const config = {
     'video',
     'web'
   ],
+  aliweexComponents: [
+    // aliweex
+    'tabheader',
+    'mask',
+    'richtext',
+    'appbar',
+    'parallax'
+  ],
   // these components should not bind events with .native.
   weexBuiltInComponents: [
     'div',
