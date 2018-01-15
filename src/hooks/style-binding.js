@@ -9,6 +9,17 @@ const bindingStyleNamesForPx2Rem = require('../config').bindingStyleNamesForPx2R
 const { parseAst } = require('../util')
 const { getCompiler, getTransformer } = require('wxv-transformer')
 
+function alreadyTransformed (node) {
+  if (node
+    && node.type === 'CallExpression'
+    && node.callee
+    && (node.callee.name + ''.match(/_processExclusiveStyle|_px2rem/)))
+  {
+    return true
+  }
+  return false
+}
+
 /**
  * transform :style="{width:w}" => :style="{width:_px2rem(w, rootValue)}"
  * This kind of style binding with object literal is a good practice.
@@ -26,6 +37,9 @@ function transformObject (obj, origTagName, rootValue) {
     const keyType = keyNode.type
     const key = keyType === 'Literal' ? keyNode.value : keyNode.name
     const valNode = prop.value
+    if (alreadyTransformed(valNode)) {
+      continue
+    }
     if (bindingStyleNamesForPx2Rem.indexOf(key) > -1) {
       prop.value = {
         type: 'CallExpression',
@@ -47,6 +61,10 @@ function transformObject (obj, origTagName, rootValue) {
  * @param {string} tagName
  */
 function transformVariable (node, tagName, rootValue) {
+  if (alreadyTransformed(node)) {
+    return node
+  }
+
   let callName = '_px2rem'
   const args = [node, { type: 'Literal', value: rootValue }]
   const transformer = getTransformer(tagName)

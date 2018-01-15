@@ -112,6 +112,27 @@ module.exports = [
     _origTag: 'div'
   }, {
     type: 1,
+    tag: 'input',
+    _weexRegistered: true,
+    plain: false,
+    hasBindings: true,
+    _hasBubbleParent: false,
+    nativeEvents: {
+      return: {
+        value: 'onReturn',
+        modifiers: {
+          stop: true
+        }
+      }
+    },
+    attrs: [
+      {
+        name: 'data-evt-return',
+        value: '""'
+      }
+    ]
+  }, {
+    type: 1,
     tag: 'div',
     _weexBuiltIn: true,
     plain: false,

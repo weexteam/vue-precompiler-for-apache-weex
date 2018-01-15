@@ -74,7 +74,14 @@ module.exports = function styleHook (
     .split(';')
     .map(statement => statement
       .split(':')
-      .map(part => `"${part}"`)
+      .map(part => {
+        return '"' + part.replace(
+          /([+-]?\d+(?:.\d*)?)(wx)/g,
+          function ($0, $1, $2) {
+            return $1 + 'px'
+          }
+        ) + '"'
+      })
       .join(':'))
     .join(",")
   // console.log('res=>', after)
