@@ -4,6 +4,6 @@
       src="#src"
       placeholder="#placeholder"
       :resize="resize"
-      class="img"></image>
+      class="img" />
   </div>
 </template>

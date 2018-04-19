@@ -1,5 +1,6 @@
 const util = require('../util')
 const {
+  ast,
   extend,
   getStaticStyleObject
 } = util
@@ -42,4 +43,32 @@ exports.processText = function (
   })
   delete el.ns
   el.plain = false
+}
+
+// deal with binding-styles ast node.
+exports.compile = function (objNode, px2remTags, rootValue, transformNode) {
+  const props = objNode.properties
+  let hasLines = false
+  for (let i = 0, l = props.length; i < l; i++) {
+    const propNode = props[i]
+    const keyNode = propNode.key
+    const keyType = keyNode.type
+    const keyNodeValStr = keyType === 'Literal' ? 'value' : 'name'
+    const keyName = keyNode[keyNodeValStr]
+    const valNode = propNode.value
+    if (keyName === 'lines') {
+      hasLines = true
+      keyNode[keyNodeValStr] = 'webkitLineClamp'
+    }
+    else if (px2remTags.indexOf(keyName) > -1) {
+      propNode.value = transformNode(propNode.value, 'text', rootValue, true/*asPropValue*/)
+    }
+  }
+  if (hasLines) {
+    objNode.properties = props.concat([
+      ast.genPropNode('overflow', 'hidden'),
+      ast.genPropNode('textOverflow', 'ellipsis')
+    ])
+  }
+  return objNode
 }

@@ -4,6 +4,50 @@ const hooks = require('./hooks')
 const util = require('./util')
 const defaults = require('./config')
 
+const arrayMergeOpts = [
+  'weexRegisteredComponents',
+  'weexBuiltInComponents',
+  'aliweexComponents'
+]
+
+function mergeConfig(thisConfig, config) {
+  if (config) {
+    const {
+      weexRegisteredComponents,
+      weexBuiltInComponents,
+      aliweex,
+      aliweexComponents
+    } = config
+  
+    // merge all fields except arrays.
+    for (const k in config) {
+      if (arrayMergeOpts.indexOf(k) <= -1) {
+        thisConfig[k] = config[k]
+      }
+    }
+  
+    // merge array fields.
+    arrayMergeOpts.forEach(function (optName) {
+      const vals = config[optName]
+      if (util.isArray(vals)) {
+        thisConfig[optName] = util.mergeStringArray(
+          thisConfig[optName],
+          vals
+        )
+      }
+    })
+  }
+
+  // At last, set the preservedTags.
+  thisConfig.preservedTags = thisConfig.weexRegisteredComponents
+    .concat(thisConfig.weexBuiltInComponents)
+  if (config && config.aliweex) {
+    thisConfig.preservedTags = thisConfig.preservedTags.concat(
+      thisConfig.aliweexComponents
+    )
+  }
+}
+
 class Precompiler {
   /**
    * config:
@@ -20,7 +64,7 @@ class Precompiler {
    */
   constructor (config) {
     this.config = defaults
-    util.extend(this.config, config)
+    mergeConfig(this.config, config)
   }
 
   precompile (el) {

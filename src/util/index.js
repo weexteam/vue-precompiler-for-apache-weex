@@ -1,4 +1,5 @@
-const esprima = require('esprima')
+const ast = require('./ast')
+exports.ast = ast
 
 exports.extend = function (to, from) {
   if (!to) { return }
@@ -13,6 +14,11 @@ exports.extend = function (to, from) {
     }
   }
   return to
+}
+
+const ARRAY_STRING = '[object Array]'
+exports.isArray = function (arr) {
+  return toString.call(arr) === ARRAY_STRING
 }
 
 const camelizeRE = /-(\w)/g
@@ -36,22 +42,14 @@ exports.getStaticStyleObject = function (el) {
   return staticStyle || {}
 }
 
-const parseAst = function parseAst (val) {
-  let statement = 'a = '
-  if (typeof val === 'object') {
-    statement += `${JSON.stringify(val)}`
+exports.mergeStringArray = function () {
+  const arrs = Array.prototype.slice.call(arguments)
+  const arrMap = {}
+  for (let i = 0, l = arrs.length; i < l; i++) {
+    const arr = arrs[i]
+    for (let j = 0, len = arr.length; j < len; j++) {
+      arrMap[arr[j]] = true
+    }
   }
-  else {
-    statement += val
-  }
-  const cached = parseAst._cached[statement]
-  if (cached) {
-    return cached
-  }
-  const ast = esprima.parse(statement)
-    .body[0].expression.right
-  parseAst._cached[statement] = ast
-  return ast
+  return Object.keys(arrMap)
 }
-parseAst._cached = {}
-exports.parseAst = parseAst

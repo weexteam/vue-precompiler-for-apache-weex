@@ -1,3 +1,20 @@
+const util = require('./util')
+
+const vendorReg = /webkit|moz/i
+function hyphen (key) {
+  return util.hyphenate(key.replace(vendorReg, function ($0) {
+    return `-${$0.toLowerCase()}-`
+  }))
+}
+
+function getAllStyles (scaleStyles) {
+  return Object.keys(scaleStyles.reduce(function (pre, key) {
+    pre[key] = 1
+    pre[hyphen(key)] = 1
+    return pre
+  }, {}))
+}
+
 const config = {
   eventMap: {
     click: 'weex$tap',
@@ -81,27 +98,6 @@ const config = {
     'finish',
     'fail'
   ],
-  preservedTags: [
-    'a',
-    'container',
-    'div',
-    'image',
-    'img',
-    'text',
-    'input',
-    'switch',
-    'list',
-    'scroller',
-    'waterfall',
-    'slider',
-    'indicator',
-    'loading-indicator',
-    'loading',
-    'refresh',
-    'textarea',
-    'video',
-    'web'
-  ],
   autoprefixer: {
     browsers: ['> 0.1%', 'ios >= 8', 'not ie < 12']
   },
@@ -109,7 +105,7 @@ const config = {
     rootValue: 75,
     minPixelValue: 1.01
   },
-  bindingStyleNamesForPx2Rem: [
+  bindingStyleNamesForPx2Rem: getAllStyles([
     'width',
     'height',
     'left',
@@ -145,7 +141,7 @@ const config = {
     'mozTransform',
     'MozTransform',
     'itemSize'
-  ]
+  ])
 }
 
 module.exports = config
