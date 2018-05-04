@@ -183,7 +183,7 @@ module.exports = function eventsHook (
   //   bindEvents(evts, el, attrs, weexEvents, appearAttached)
   // }
   // 这里应该是weex内置的组件才要处理weex的通用事件, 自定义的组件事件不应该加 .stop, 也不应该 click 转成 weex$tap
-  if (el._weexRegistered || el.tag === 'a') {
+  if (el._weexRegistered || el.tag === 'div' || el.tag === 'a') {
     if (evts) {
       bindEvents(evts, el, attrs, weexEvents, appearAttached)
     }
