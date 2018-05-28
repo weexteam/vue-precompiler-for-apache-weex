@@ -10,6 +10,27 @@ const arrayMergeOpts = [
   'aliweexComponents'
 ]
 
+const mergeStrats = {
+  px2rem: function (thisConfig, config) {
+    const { px2rem } = config
+    const { px2rem: thisPx2rem } = thisConfig
+    if (px2rem) {
+      for (k in px2rem) {
+        if (k === 'rootValue') {
+          // ignore rootValue. Always use 750. Why? We use meta[name=weex-viewport] and
+          // meta.setViewport API to set design viewport width, and they would be broken if
+          // we use other rootValue here.
+          continue
+        }
+        else if (px2rem.hasOwnProperty(k)) {
+          thisPx2rem[k] = px2rem[k]
+        }
+      }
+    }
+    return thisPx2rem
+  }
+}
+
 function mergeConfig(thisConfig, config) {
   if (config) {
     const {
@@ -22,7 +43,7 @@ function mergeConfig(thisConfig, config) {
     // merge all fields except arrays.
     for (const k in config) {
       if (arrayMergeOpts.indexOf(k) <= -1) {
-        thisConfig[k] = config[k]
+        thisConfig[k] = mergeStrats[k] ? mergeStrats[k](thisConfig, config): config[k]
       }
     }
   
