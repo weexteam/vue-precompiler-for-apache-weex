@@ -179,7 +179,11 @@ module.exports = function eventsHook (
   const appearAttached = {
     value: false
   }
-  if (evts) {
+  // if (evts) {
+  //   bindEvents(evts, el, attrs, weexEvents, appearAttached)
+  // }
+  // 这里应该是weex内置的组件才要处理weex的通用事件, 自定义的VUE组件事件不应该加 .stop, 也不应该 click 转成 weex$tap
+  if (evts && (el._weexRegistered || el._weexBuiltIn)) {
     bindEvents(evts, el, attrs, weexEvents, appearAttached)
   }
   if (nativeEvts) {

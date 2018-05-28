@@ -21,10 +21,6 @@ module.exports = [
     },
     attrs: [
       {
-        name: 'data-evt-someEvent',
-        value: '""'
-      },
-      {
         name: 'weex-appear',
         value: '""'
       },
