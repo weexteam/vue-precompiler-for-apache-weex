@@ -60,7 +60,7 @@ module.exports = function styleHook (
 
   const config = this.config
   const before = staticStyle
-    .replace(/\s/g, '')
+    .trim()
     .replace(/",/g, '";')
     .replace(/"/g, '')
   // console.log('before:', staticStyle)
