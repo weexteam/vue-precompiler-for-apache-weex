@@ -2,7 +2,8 @@ const util = require('../util')
 const {
   ast,
   extend,
-  getStaticStyleObject
+  getStaticStyleObject,
+  fixStyleUnit
 } = util
 
 function getLinesStaticStyle (n) {
@@ -61,7 +62,8 @@ exports.compile = function (objNode, px2remTags, rootValue, transformNode) {
       keyNode[keyNodeValStr] = 'webkitLineClamp'
     }
     else if (px2remTags.indexOf(keyName) > -1) {
-      propNode.value = transformNode(propNode.value, 'text', rootValue, true/*asPropValue*/)
+      propNode.value = transformNode(fixStyleUnit(keyName, propNode.value), 'text',
+        rootValue, true/*asPropValue*/)
     }
   }
   if (hasLines) {

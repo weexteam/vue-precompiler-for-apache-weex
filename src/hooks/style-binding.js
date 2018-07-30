@@ -7,7 +7,7 @@ const escodegen = require('escodegen')
 const bindingStyleNamesForPx2Rem = require('../config').bindingStyleNamesForPx2Rem
 const issues = 'https://github.com/weexteam/weex-vue-precompiler/issues'
 
-const { ast } = require('../util')
+const { ast, fixStyleUnit } = require('../util')
 const { getCompiler } = require('../components')
 const { getTransformer } = require('wxv-transformer')
 
@@ -51,7 +51,8 @@ function transformObject (ast, tagName, rootValue) {
     const keyType = keyNode.type
     const key = keyType === 'Literal' ? keyNode.value : keyNode.name
     if (bindingStyleNamesForPx2Rem.indexOf(key) > -1) {
-      prop.value = transformNode(prop.value, tagName, rootValue, true/*asPropValue*/)
+      prop.value = transformNode(fixStyleUnit(key, prop.value), tagName,
+        rootValue, true/*asPropValue*/)
     }
   }
   return ast
