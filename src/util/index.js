@@ -42,17 +42,6 @@ exports.getStaticStyleObject = function (el) {
   return staticStyle || {}
 }
 
-exports.fixStyleUnit = function (styleName, literal) {
-  const unitless = ['lineHeight']
-  let value = literal.value
-  if (unitless.indexOf(styleName) < 0 && typeof value === 'number') {
-    console.warn(`[weex-vue-precompiler] style '${styleName}: ${value}' should end with 'px'.`)
-    value += 'px'
-    literal.value = value
-  }
-  return literal
-}
-
 exports.mergeStringArray = function () {
   const arrs = Array.prototype.slice.call(arguments)
   const arrMap = {}
