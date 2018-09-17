@@ -9,7 +9,7 @@ exports.processResize = function (
   const tag = el._origTag || el.tag
   if (
     this.config.preservedTags.indexOf(tag) > -1
-    && tag !== 'image'
+    && (tag !== 'image' && tag !== 'gif')
   ) {
     return
   }
@@ -30,7 +30,7 @@ exports.processResize = function (
     })
   }
 }
- 
+
 exports.processImage = function (
   el,
   attrsMap,
@@ -52,7 +52,7 @@ exports.processImage = function (
   el.staticClass = `"${finalClass}"`
   attrs.push({
     name: `weex-type`,
-    value: '"image"'
+    value: `"${el._origTag || el.tag || 'image'}"`
   })
   delete el.ns
   el.plain = false
