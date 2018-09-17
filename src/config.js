@@ -53,6 +53,7 @@ const config = {
     'container',
     'text',
     'image',
+    'gif',
     'img',
     'cell',
     'a'

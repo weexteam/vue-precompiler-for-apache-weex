@@ -1,5 +1,5 @@
 const metaMap = {
-  figure: ['img', 'image', 'figure'],
+  figure: ['img', 'gif', 'image', 'figure'],
   p: ['text', 'p'],
   div: ['container', 'div'],
   section: ['cell']
