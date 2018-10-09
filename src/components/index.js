@@ -3,6 +3,7 @@ const image = require('./image')
 const text = require('./text')
 const a = require('./a')
 const cell = require('./cell')
+const recycleList = require('./recycle-list')
 
 const cmpMaps = { div, image, text, a, cell }
 
@@ -12,6 +13,7 @@ module.exports = {
   p: text.processText,
   a: a.processA,
   section: cell.processCell,
+  'recycle-list': recycleList.processRecycleList,
   // get ast compiler for binding styles.
   getCompiler: function (tag) {
     const cmp = cmpMaps[tag]
