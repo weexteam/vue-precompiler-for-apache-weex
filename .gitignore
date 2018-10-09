@@ -59,3 +59,6 @@ typings/
 
 # test
 test/webpack-dist
+
+# vscode
+.vscode

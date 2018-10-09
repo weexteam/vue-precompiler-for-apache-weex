@@ -2,7 +2,8 @@ const metaMap = {
   figure: ['img', 'gif', 'image', 'figure'],
   p: ['text', 'p'],
   div: ['container', 'div'],
-  section: ['cell']
+  section: ['cell', 'cell-slot'],
+  'recycle-list': ['recycle-list']
 }
 
 const checkMap = Object.keys(metaMap).reduce(function (pre, targetTag) {
