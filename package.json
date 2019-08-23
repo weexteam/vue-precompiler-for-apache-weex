@@ -1,6 +1,6 @@
 {
   "name": "weex-vue-precompiler",
-  "version": "0.1.24",
+  "version": "0.1.26",
   "description": "a precompiler for weex-vue-render.",
   "main": "src/index.js",
   "scripts": {
