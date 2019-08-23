@@ -133,6 +133,33 @@ module.exports = [
     ]
   }, {
     type: 1,
+    tag: 'a',
+    _weexBuiltIn: true,
+    hasBindings: true,
+    plain: false,
+    staticClass: "\" weex-ct weex-a\"",
+    _hasBubbleParent: false,
+    events: {
+      click: {
+        value: "$stopOuterA"
+      },
+      "weex$tap": {
+        value: 'function($event){$stopPropagation(); return test()}',
+        modifiers: {
+          stop: true
+        }
+      }
+    },
+    attrs: [{
+        name: "weex-type",
+        value: "\"a\""
+      }, {
+        name: 'data-evt-click',
+        value: '""'
+      }
+    ]
+  }, {
+    type: 1,
     tag: 'div',
     _weexBuiltIn: true,
     plain: false,
