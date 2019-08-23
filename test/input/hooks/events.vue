@@ -4,5 +4,6 @@
     <slider @change="change" @appear="appear"></slider>
     <div @click="click" @appear="appear"></div>
     <input @return="onReturn" />
+    <a @click="test()"></a>
   </div>
 </template>

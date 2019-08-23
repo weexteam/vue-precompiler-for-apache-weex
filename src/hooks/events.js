@@ -6,6 +6,10 @@ const transEvtsMap = {
   offsetDisappear: 'offset-disappear'
 }
 
+const fnExpRE = /^([\w$_]+|\([^)]*?\))\s*=>|^function(?:\s+[\w$]+)?\s*\(/
+const fnInvokeRE = /\([^)]*?\);*$/
+const simplePathRE = /^[A-Za-z_$][\w$]*(?:\.[A-Za-z_$][\w$]*|\['[^']*?']|\["[^"]*?"]|\[\d+]|\[[A-Za-z_$][\w$]*])*$/
+
 /**
  * check whether has a parent that meet the check-condition.
  * @param {Array<String>} flags a flag is to put on the parent node to
@@ -209,8 +213,13 @@ module.exports = function eventsHook (
       else if (Array.isArray(val)) {
         evt.value.unshift(inject)
       }
-      else {
-        evt.value = [inject, val]
+      else if (typeof val === 'string') {
+        const handlerCode = simplePathRE.test(val)  // is method path
+          ? `${val}($event)`
+          : fnExpRE.test(val)  // is function expression
+            ? `(${val})($event)`
+            : val
+        evt.value = `function($event){${inject}(); return ${handlerCode}}`
       }
     }
   }
