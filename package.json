@@ -27,7 +27,7 @@
     "mocha": "^4.1.0",
     "vue-loader": "^13.6.2",
     "vue-template-compiler": "^2.5.13",
-    "webpack": "^3.10.0",
+    "webpack": "^5.75.0",
     "webpack-merge": "^4.1.1"
   }
 }
